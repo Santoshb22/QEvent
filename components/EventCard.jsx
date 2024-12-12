@@ -1,13 +1,16 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import Tag from "./Tag";
 import Link from "next/link";
 
-const EventCard = ({ eventData }) => {
-  console.log(eventData);
+const EventCard = ({ eventData, onClick }) => {
+  const router = useRouter();
   
   return (
-    <div className="hover-inverse h-fit group transform transition-transform duration-400 hover:scale-110 hover:bg-gradient-to-r hover:from-orange-200 hover:to-white text-dark m-4 border-slate-400 border rounded-md px-8 py-2.5">
+    <div 
+    onClick={onClick}
+    className="hover-inverse h-fit group transform transition-transform duration-400 hover:scale-110 hover:bg-gradient-to-r hover:from-orange-200 hover:to-white text-dark m-4 border-slate-400 border rounded-md px-8 py-2.5">
       <Link
         href={`#`}
         className="rounded-md text-dark flex-shrink-0 scroll-snap-card p-4"
@@ -18,9 +21,14 @@ const EventCard = ({ eventData }) => {
             src={eventData.image}
             alt="Bonnie image"
           />
-          <div className="flex gap-2 items-center text-sm flex-wrap">
+          <div className="cursor-pointer flex gap-2 items-center text-sm flex-wrap">
             {eventData?.tags?.map((tag) => (
-              <Tag text={tag} key={tag} />
+              <Tag 
+              onClick={(e) => {
+                e.stopPropagation();
+                router.push(`/events?tag=${tag}`);
+                 }}
+              text={tag} key={tag}/>
             ))}
           </div>
           <p className="mt-5 mb-10">

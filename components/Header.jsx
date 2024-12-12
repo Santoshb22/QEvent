@@ -77,7 +77,7 @@ const Header = () => {
 
           {session ? (
             <button
-              onClick={() => {}}
+              onClick={() => {setSession(false)}}
               className=" bg-gradient-to-r from-orange-400 to-teal-600 text-white px-4 py-2 rounded-md font-medium hover:opacity-70"
             >
               Logout
@@ -85,7 +85,7 @@ const Header = () => {
           ) : null}
           {!session ? (
             <button
-              onClick={() => {}}
+              onClick={() => {signIn(setSession(true))}}
               className=" bg-gradient-to-r from-orange-400 to-teal-600 text-white px-4 py-2 rounded-md font-medium hover:opacity-70"
             >
               Log in
