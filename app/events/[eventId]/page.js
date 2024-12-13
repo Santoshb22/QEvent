@@ -2,7 +2,7 @@
 import EventDetailCard from "@/components/EventDetailCard";
 
 const event = async ({params}) => {
-    const response = await fetch(`https://qevent-backend.labs.crio.do/events/${params.eventId}`);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_EVENTS_API_URL}/${params.eventId}`);
     const eventData = await response.json();
 
   return (

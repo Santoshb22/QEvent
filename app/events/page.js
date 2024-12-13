@@ -9,15 +9,30 @@ const Events = () => {
     const [eventsData, setEventsData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [filteredEvents, setFilteredEvents] = useState([]);
 
-    const eventsAPI = "https://qevent-backend.labs.crio.do/events";
+    const eventsAPI = process.env.NEXT_PUBLIC_EVENTS_API_URL;
     const artist = searchParams.get("artist");
+    const hastag = searchParams.get("tag");
     const router = useRouter();
 
     const handleRouteEvent = (id) => {
         router.push(`/events/${id}`);
     }
 
+    useEffect(() => {
+        if (artist) {
+            const filterByArtist = eventsData.filter(event => event.artist === artist);
+            setFilteredEvents(filterByArtist);
+        } else if (hastag) {
+            const filterByTags = eventsData.filter(event => event.tags?.includes(hastag));
+            setFilteredEvents(filterByTags);
+        } else {
+            setFilteredEvents(eventsData);
+        }
+    }, [artist, hastag, eventsData]);
+    
+    
     useEffect(() => {
         (async function fetchEvents() {
             try {
@@ -36,18 +51,15 @@ const Events = () => {
         })();
     }, []);
 
-    const filteredByArtist = artist
-        ? eventsData.filter(event => event.artist === artist)
-        : eventsData;
 
     return (
-        <div className="grid grid-cols-4">
+        <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1">
             {loading ? (
                 <h2>Loading...</h2>
             ) : error ? (
                 <h2>Error: {error}</h2>
-            ) : filteredByArtist.length > 0 ? (
-                filteredByArtist.map(eventData => (
+            ) : filteredEvents.length > 0 ? (
+                filteredEvents.map(eventData => (
                     <EventCard
                     onClick = {() => handleRouteEvent(eventData.id)}
                     key={eventData.id} eventData={eventData} />

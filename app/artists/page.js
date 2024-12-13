@@ -2,7 +2,8 @@
 import ArtistCard from "@/components/ArtistCard";
 
 const Artists = async () => {
-  const response = await fetch("https://qevent-backend.labs.crio.do/artists");
+  const artistAPI = process.env.ARTIST_API_URL;
+  const response = await fetch(artistAPI);
   const artistsData = await response.json();
 
   return (

@@ -4,7 +4,7 @@ import "../app/globals.css";
 
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React from "react";
 import { HomeIcon, PersonIcon } from "@radix-ui/react-icons";
 import { CgProfile } from "react-icons/cg";
 import { useSession, signIn, signOut } from "next-auth/react";
@@ -13,7 +13,7 @@ import { FaRegHeart } from "react-icons/fa";
 import { TfiTicket } from "react-icons/tfi";
 
 const Header = () => {
-  const [session, setSession] = useState(false);
+  const {data: session} = useSession();
 
   return (
     <nav className="drop-shadow-2xl flex items-center justify-between p-3 border-b border-slate-200 border-spacing-0 bg-slate-100 h-24">
@@ -75,22 +75,28 @@ const Header = () => {
             <p>Tags</p>
           </Link>
 
+          <Link href={"/create-event"}>
+          <div className="flex justify-center items-center gap-2">
+            <FaRegHeart/>
+            <p>Create Event</p>
+          </div>
+          </Link>
+
           {session ? (
             <button
-              onClick={() => {setSession(false)}}
-              className=" bg-gradient-to-r from-orange-400 to-teal-600 text-white px-4 py-2 rounded-md font-medium hover:opacity-70"
+              onClick={() => signOut()}
+              className="bg-gradient-to-r from-orange-400 to-teal-600 text-white px-4 py-2 rounded-md"
             >
               Logout
             </button>
-          ) : null}
-          {!session ? (
+          ) : (
             <button
-              onClick={() => {signIn(setSession(true))}}
-              className=" bg-gradient-to-r from-orange-400 to-teal-600 text-white px-4 py-2 rounded-md font-medium hover:opacity-70"
+              onClick={() => signIn()}
+              className="bg-gradient-to-r from-orange-400 to-teal-600 text-white px-4 py-2 rounded-md"
             >
-              Log in
+              Login
             </button>
-          ) : null}
+          )}
         </div>
         <div className="flex justify-center items-center gap-4 max-sm:gap-1"></div>
       </div>
