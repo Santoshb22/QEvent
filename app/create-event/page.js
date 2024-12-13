@@ -91,18 +91,20 @@ const CreateEvent = () => {
   }
 
   return (
-    <div className="max-w-[100%] w-[80%] mx-auto">
+    <div className="max-w-[100%] w-[90%] mx-auto">
     <p>Welcome! Use this form to create your event.</p>
     <br />
 
-    <div className="form w-2/4 border p-4 flex justify-center items-center">
+    <div className="form md:w-2/4 w-full border p-4">
       <form onSubmit={handleCreateEvent}>
-        <div>
+        <div className="my-2">
           <p>Image</p>
-          <img src={`${process.env.NEXT_PUBLIC_RANDOMUSER_IMG}/${randomNumber}.jpg`} alt = "Imgage"/>
+          <img 
+          className="rounded"
+          src={`${process.env.NEXT_PUBLIC_RANDOMUSER_IMG}/${randomNumber}.jpg`} alt = "Imgage"/>
         </div>
 
-        <div>
+        <div className="my-2">
           <div>
           {formData.tags.length > 0 && formData.tags.map(tag => (
                 <span className="mx-1" key={tag}>#{tag}</span>
@@ -115,51 +117,51 @@ const CreateEvent = () => {
           type="text" id="tag" name="tag" value={tag} placeholder="Add tags"/>
           <button 
           onClick={(e) => handleAddTag(e)}
-          className="bg-blue-100 px-2 rounded mx-1">
+          className="bg-blue-100 hover:bg-blue-200 py-1 px-2 rounded mx-1">
             Add
           </button>
         </div>
 
-        <div>
+        <div className="my-2">
           <label htmlFor="date">Date:</label>
           <input className="border rounded outline-none p-1"
           onChange={(e) => handleInputChange(e)}
           type="date" id="date" name="date" value={formData.date}/>
         </div>
 
-        <div>
+        <div className="my-2">
           <label htmlFor="time">Time:</label>
           <input
           onChange={(e) => handleInputChange(e)}
           type="time" id="time" name="time" value={formData.time}/>
         </div>
         
-        <div>
+        <div className="my-2">
           <label htmlFor="location">Location:</label>
           <input className="border rounded outline-none p-1"
           onChange={(e) => handleInputChange(e)}
-          type="text" id="location" name="location" value={formData.location}/>
+          type="text" placeholder="Add Location" id="location" name="location" value={formData.location}/>
         </div>
         
-        <div>
+        <div className="my-2">
           <label htmlFor="name">Name:</label>
           <input className="border rounded outline-none p-1"
           onChange={(e) => handleInputChange(e)}
-          type="text" id="name" name="name" value={formData.name}/>
+          type="text" placeholder="Event Name" id="name" name="name" value={formData.name}/>
         </div>
 
-        <div>
+        <div className="my-2">
           <label htmlFor="artist">Artist:</label>
           <input className="border rounded outline-none p-1"
           onChange={(e) => handleInputChange(e)}
-          type="text" id="artist" name="artist" value={formData.artist}/>
+          type="text" placeholder="Artists Name" id="artist" name="artist" value={formData.artist}/>
         </div>
 
-        <div>
+        <div className="my-2">
           <label htmlFor="price">Price:</label>
           <input className="border rounded outline-none p-1"
           onChange={(e) => handleInputChange(e)}
-          type="number" id="price" name="price" value={formData.price}/>
+          type="number" placeholder="Amount" id="price" name="price" value={formData.price}/>
         </div>
 
         {

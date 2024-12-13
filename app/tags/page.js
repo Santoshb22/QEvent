@@ -12,7 +12,7 @@ const page = () => {
             <p 
             className=" cursor-pointer bg-gradient-to-r from-orange-400 to-teal-600 text-white px-4 py-2 rounded-md"
             onClick={() => router.push(`/events?tag=${tag}`)}
-            >{tag}
+            >#{tag}
             </p>
             ))
         }
