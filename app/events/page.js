@@ -2,12 +2,27 @@ import EventCard from "@/components/EventCard";
 
 const Events = async ({searchParams}) => {
     const eventsAPI = 'https://qevent-backend.labs.crio.do/events';
-    const response = await fetch(eventsAPI);
-    if(!response || !response.ok) throw new Error("Error: Failed to fetch error");
-    const eventsData = await response.json();
+   
+    const fetchEvents = async () => {
+        const res = await fetch(eventsAPI, { cache: 'no-store' });
 
-    const artist = searchParams.artist;
-    const hastag = searchParams.tag;
+        if (!res || !res.ok) {
+            throw new Error('Failed to fetch data')
+        }
+
+        return await res.json();
+    }
+
+    let eventsData = [];
+    try {
+        eventsData = await fetchEvents();
+    } catch (error) {
+        console.error(error);
+        return <h2>Error loading events</h2>;
+    }
+
+    const artist = searchParams?.artist || null;
+    const hastag = searchParams?.tag || null;
 
     const filteredEvents = eventsData.filter((event) => {
         if (artist)
