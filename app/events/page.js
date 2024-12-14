@@ -1,68 +1,27 @@
-"use client";
-import { useSearchParams } from "next/navigation";
 import EventCard from "@/components/EventCard";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 
-const Events = () => {
-    const searchParams = useSearchParams();
-    const [eventsData, setEventsData] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
-    const [filteredEvents, setFilteredEvents] = useState([]);
-
+const Events = async ({searchParams}) => {
     const eventsAPI = 'https://qevent-backend.labs.crio.do/events';
-    const artist = searchParams.get("artist");
-    const hastag = searchParams.get("tag");
-    const router = useRouter();
+    const response = await fetch(eventsAPI);
+    if(!response || !response.ok) throw new Error("Error: Failed to fetch error");
+    const eventsData = await response.json();
 
-    const handleRouteEvent = (id) => {
-        router.push(`/events/${id}`);
-    }
+    const artist = searchParams.artist;
+    const hastag = searchParams.tag;
 
-    useEffect(() => {
-        if (artist) {
-            const filterByArtist = eventsData.filter(event => event.artist === artist);
-            setFilteredEvents(filterByArtist);
-        } else if (hastag) {
-            const filterByTags = eventsData.filter(event => event.tags?.includes(hastag));
-            setFilteredEvents(filterByTags);
-        } else {
-            setFilteredEvents(eventsData);
-        }
-    }, [artist, hastag, eventsData]);
+    const filteredEvents = eventsData.filter((event) => {
+        if (artist)
+            return event.artist === searchParams.artist;
+        if (hastag)
+            return  event.tags ? event.tags.includes(searchParams.tag) : false;
+        return eventsData;
+    });
     
-    
-    useEffect(() => {
-        (async function fetchEvents() {
-            try {
-                setLoading(true);
-                setError(null);
-                const res = await fetch(eventsAPI);
-                if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-                const data = await res.json();
-                setEventsData(data);
-            } catch (err) {
-                console.error("Error fetching data:", err);
-                setError(err.message || "Failed to fetch events.");
-            } finally {
-                setLoading(false);
-            }
-        })();
-    }, []);
-
-
     return (
         <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1">
-            {loading ? (
-                <h2>Loading...</h2>
-            ) : error ? (
-                <h2>Error: {error}</h2>
-            ) : filteredEvents.length > 0 ? (
+            { filteredEvents.length > 0 ? (
                 filteredEvents.map(eventData => (
-                    <EventCard
-                    onClick = {() => handleRouteEvent(eventData.id)}
-                    key={eventData.id} eventData={eventData} />
+                    <EventCard key={eventData.id} eventData={eventData} />
                 ))
             ) : (
                 <h2>No Events Available</h2>
