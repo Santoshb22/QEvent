@@ -16,7 +16,7 @@ const CreateEvent = () => {
     artist: "",
     price: "",
     location: "",
-    image: `${process.env.NEXT_PUBLIC_RANDOMUSER_IMG}/${randomNumber}.jpg`
+    image: `https://randomuser.me/api/portraits/men/${randomNumber}.jpg`
   })
   const [tag, setTag] = useState("");
   const [loading, setLoading] = useState(false);
@@ -61,7 +61,7 @@ const CreateEvent = () => {
 
     try {
       setLoading(true);
-      const response = await fetch(process.env.NEXT_PUBLIC_EVENTS_API_URL,
+      const response = await fetch('https://qevent-backend.labs.crio.do/events',
         {
           method: "POST",
           headers: {
@@ -101,7 +101,7 @@ const CreateEvent = () => {
           <p>Image</p>
           <img 
           className="rounded"
-          src={`${process.env.NEXT_PUBLIC_RANDOMUSER_IMG}/${randomNumber}.jpg`} alt = "Imgage"/>
+          src={formData.image} alt = "Imgage"/>
         </div>
 
         <div className="my-2">

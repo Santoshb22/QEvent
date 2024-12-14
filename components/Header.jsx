@@ -25,8 +25,8 @@ const Header = () => {
           <Image
             src={"/images/logo.png"}
             alt="logo"
-            height={90} // Aspect ratio control
-            width={90} // Aspect ratio control
+            height={90} 
+            width={90} 
             layout="responsive"
             className="hover-inverse w-full h-auto max-w-[120px] max-h-[120px] py-4"
           />

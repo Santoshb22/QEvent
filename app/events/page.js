@@ -11,7 +11,7 @@ const Events = () => {
     const [error, setError] = useState(null);
     const [filteredEvents, setFilteredEvents] = useState([]);
 
-    const eventsAPI = process.env.NEXT_PUBLIC_EVENTS_API_URL;
+    const eventsAPI = 'https://qevent-backend.labs.crio.do/events';
     const artist = searchParams.get("artist");
     const hastag = searchParams.get("tag");
     const router = useRouter();

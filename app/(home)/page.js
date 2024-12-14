@@ -14,7 +14,7 @@ function App() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2  mt-8 mb-32">
         {dummyEvents.map((eventData) => (
-          <EventCard eventData={eventData} />
+          <EventCard key={eventData.id} eventData={eventData} />
         ))}
       </div>
     </div>
